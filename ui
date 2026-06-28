@@ -10,7 +10,7 @@
     local CoreGui
     do
         local success = pcall(function()
-            local test = Instance.new("Folder")
+            local test = Instance.new("ScreenGui")
             test.Parent = game:GetService("CoreGui")
             test:Destroy()
         end)
