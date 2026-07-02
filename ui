@@ -3,23 +3,9 @@
 
 -- Variables 
     -- Services
-    local InputService, HttpService, GuiService, RunService, Stats, _CoreGui, TweenService, SoundService, Workspace, Players = game:GetService("UserInputService"), game:GetService("HttpService"), game:GetService("GuiService"), game:GetService("RunService"), game:GetService("Stats"), nil, game:GetService("TweenService"), game:GetService("SoundService"), game:GetService("Workspace"), game:GetService("Players")
+    local InputService, HttpService, GuiService, RunService, Stats, CoreGui, TweenService, SoundService, Workspace, Players = game:GetService("UserInputService"), game:GetService("HttpService"), game:GetService("GuiService"), game:GetService("RunService"), game:GetService("Stats"), game:GetService("CoreGui"), game:GetService("TweenService"), game:GetService("SoundService"), game:GetService("Workspace"), game:GetService("Players")
     local Camera, lp, gui_offset = Workspace.CurrentCamera, Players.LocalPlayer, GuiService:GetGuiInset().Y
     local mouse = lp:GetMouse()
-
-    local CoreGui
-    do
-        local success = pcall(function()
-            local test = Instance.new("ScreenGui")
-            test.Parent = game:GetService("CoreGui")
-            test:Destroy()
-        end)
-        if success then
-            CoreGui = game:GetService("CoreGui")
-        else
-            CoreGui = lp:WaitForChild("PlayerGui")
-        end
-    end
 
     -- Data types
     local vec2, vec3, dim2, dim, rect, dim_offset = Vector2.new, Vector3.new, UDim2.new, UDim.new, Rect.new, UDim2.fromOffset
@@ -2753,7 +2739,7 @@
                 Side = properties.side or properties.Side or "Left";
 
                 -- Fill settings 
-				Size = properties.size or properties.Size or 1;
+                Size = properties.size or properties.Size or nil;
                 
                 -- Other
                 Items = {};
@@ -3135,7 +3121,7 @@
                 Side = properties.side or properties.Side or "Left";
 
                 -- Fill settings 
-				Size = properties.size or properties.Size or 1;
+                Size = properties.size or properties.Size or nil;
                 
                 -- Other
                 Items = {};
@@ -3191,6 +3177,7 @@
                     BackgroundColor3 = rgb(255, 255, 255)
                 });
                 
+                if Cfg.Size then 
                     Items.ScrollingFrame = Library:Create( "ScrollingFrame" , {
                         Active = true;
                         ScrollingEnabled = true;
@@ -3237,7 +3224,7 @@
 
                     Items.Elements.Parent = Items.ScrollingFrame
                     Items.Elements.Position = dim2(0, 6, 0, 0);
-
+                end 
 
                 Library:Create( "UIListLayout" , {
                     Parent = Items.Elements;
@@ -4083,6 +4070,7 @@
 
             Library:Connection(InputService.InputBegan, function(input, game_event)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    print("clicked")
                     if (Items.DropdownElements.Visible) and not Library:Hovering({Items.DropdownElements, Items.Dropdown}) then
                         Cfg.SetVisible(false)
                         Cfg.Open = false
@@ -5023,7 +5011,5 @@
         end
     --
 -- 
-
-getgenv().Library, getgenv().Notifications, getgenv().Themes = Library, Notifications, themes
 
 return Library, Notifications, themes
